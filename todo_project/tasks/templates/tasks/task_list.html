@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}My To-Do List{% endblock %}
+
+{% block content %}
+<h1>My To-Do List</h1>
+
+<!-- Add Task Form -->
+<form method="POST" class="task-form">
+    {% csrf_token %}
+    <input
+        type="text"
+        name="title"
+        class="task-input"
+        placeholder="What do you need to do?"
+        autocomplete="off"
+        required
+    />
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<!-- Task List -->
+<ul class="task-list">
+    {% if tasks %}
+        {% for task in tasks %}
+            <li class="task-item">
+                <div class="task-left">
+                    <!-- Toggle completed -->
+                    <form method="POST" action="{% url 'task_toggle' task.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-ghost">
+                            {% if task.completed %}✅{% else %}☐{% endif %}
+                        </button>
+                    </form>
+
+                    <span class="task-title {% if task.completed %}completed{% endif %}">
+                        {{ task.title }}
+                    </span>
+
+                    {% if task.completed %}
+                        <span class="badge">Done</span>
+                    {% endif %}
+                </div>
+
+                <!-- Delete button -->
+                <form method="POST" action="{% url 'task_delete' task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">✕</button>
+                </form>
+            </li>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            No tasks yet. Add your first task above ✨
+        </div>
+    {% endif %}
+</ul>
+{% endblock %}

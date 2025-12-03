@@ -1,0 +1,13 @@
+installed python 3.14 using following command - [bash commands]
+------------------------------------------------------------------------
+sudo apt-get update
+sudo apt-get install -y software-properties-common ca-certificates curl
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install -y python3.14 python3.14-venv
+------------------------------------------------------------------------
+then create the venv
+------------------------------------------------------------------------
+python3.14 -m venv .venv314
+source .venv314/bin/activate
+python --version
